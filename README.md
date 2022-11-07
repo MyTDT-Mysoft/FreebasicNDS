@@ -1,6 +1,9 @@
 # FreebasicNDS
 Toolchain to cross compile freebasic programs for NDS  
 
+<h2>Samples</h2>
+https://github.com/MyTDT-Mysoft/FreebasicDS-SampleProjects  
+
 <h1>Important</h1>  
 
 To use it, please download a (windows for now) **release** because the github folder does not have the requires (freebasic 0.25) and devkitpro installs to use it, but the github files (mainly the **modules** folder) can be used to update the toolchain until a new release is created (when theres changes to freebasic or devkitpro or other major essential changes)  
