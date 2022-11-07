@@ -19,7 +19,7 @@ the toolchain comes ready to use, however to use it you need a few steps:
 This will create softlinks to some folders and files required to compile, it will also hide and protect them and delete the InitFolder.bat (so you wont see them) thats because right now it does still require the msys and a makefile to compile, so right now thats the setup i have for it.  
 
 A **Drag_Bas_Here_To_Compile.bat** file is created along a sample .bas file and a config.bi file (the config.bi have some settings on what to enable or not... and what to include or not from freebasic runtime library (to minimize the compile time and output .nds file size), and other details that are special when using NDS, the freebasic runtime library and fbgfx are always compiled along the code of your program, to achieve as good optimization as possible for the NDS  
-The **CrossConfig.bi** should probabily be included instead of hardcoded (like most samples so far have, because its better organized this way, even that its not currently used by any of the samples (because i just made it now to simplify for people who will have code that will work on both native and NDS), also note that the __FB_NDS__ is defined so you can have code specific for NDS.  
+The **CrossConfig.bi** should probabily be included instead of hardcoded (like most samples so far have, because its better organized this way, even that its not currently used by any of the samples (because i just made it now to simplify for people who will have code that will work on both native and NDS), also note that the ____FB_NDS____ is defined so you can have code specific for NDS.  
 
 <h1>Compatibility warnings</h1>  
 
