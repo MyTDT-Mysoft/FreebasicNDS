@@ -1,10 +1,12 @@
 # FreebasicNDS
 Toolchain to cross compile freebasic programs for NDS  
 
-<h1>Important</h1>
+<h1>Important</h1>  
+
 To use it, please download a (windows for now) **release** because the github folder does not have the requires (freebasic 0.25) and devkitpro installs to use it, but the github files (mainly the **modules** folder) can be used to update the toolchain until a new release is created (when theres changes to freebasic or devkitpro or other major essential changes)  
 
 <h1>Usage</h1>  
+
 the toolchain comes ready to use, however to use it you need a few steps:  
 
 1. **! ! VERY IMPORTANT ! !** open the **InitFolder.bat** and change the **set FrameWorkFolder=** to the full path that you extracted the release files.
