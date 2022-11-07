@@ -25,4 +25,4 @@ The **CrossConfig.bi** should probabily be included instead of hardcoded (like m
 
 **LINUX:** While i want to have this working on linux (and may be possible if the compile .bat and InitFolder.bat get translated to linux shell scripts (altough if you would install devkitpro and freebasic 0.25 there (not sure what required to have both current version freebasic and 0.25 installed at same time), would have it working..  
 
-**Windows XP:** Everything from the toolchain and freeasic should work just fine on XP, however the **mklink**'s inside the **InitFolder.bat** must be changed to equivalent junctions (and i guess that since those are hardlinks then the project folder must be on the same partition... disk? as where the base folder is.
+**Windows XP:** Everything from the toolchain and freebasic should work just fine on XP, however the **mklink**'s inside the **InitFolder.bat** must be changed to equivalent junctions (and i guess that since those are hardlinks then the project folder must be on the same partition... disk? as where the base folder is.
