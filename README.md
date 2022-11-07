@@ -7,8 +7,8 @@ To use it, please download a (windows for now) **release** because the github fo
 <h1>usage</h1>  
 the toolchain comes ready to use, however to use it you need a few steps:  
 
-1. **!!VERY IMPORTANT!!** open the **InitFolder.bat** and change the **set FrameWorkFolder=** to the full path that you extracted the release files.
-1. create an empty folder **(no spaces on the path!!!)**
+1. **! ! VERY IMPORTANT ! !** open the **InitFolder.bat** and change the **set FrameWorkFolder=** to the full path that you extracted the release files.
+1. create an empty folder **(no spaces on the path! ! !)**
 1. copy the **InitFolder.bat** to that empty folder and run it  
 
 This will create softlinks to some folders and files required to compile, it will also hide and protect them and delete the InitFolder.bat (so you wont see them) thats because right now it does still require the msys and a makefile to compile, so right now thats the setup i have for it.  
