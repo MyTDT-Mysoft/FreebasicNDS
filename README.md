@@ -10,7 +10,7 @@ To use it, please download a (windows for now) **release** because the github fo
 
 <h1>Usage</h1>  
 
-the toolchain comes ready to use, however to use it you need a few steps:  
+the toolchain comes ready to use, however to use it you need a few config steps:  
 
 1. **! ! VERY IMPORTANT ! !** open the **InitFolder.bat** and change the **set FrameWorkFolder=** to the full path that you extracted the release files.
 1. create an empty folder **(no spaces on the path! ! !)**
