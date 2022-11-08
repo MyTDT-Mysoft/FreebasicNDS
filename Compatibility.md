@@ -49,7 +49,7 @@ Here is a list of the defines that i implemented so far (and default settings ac
 - **\_\_FB_FAT\_\_**  
  Enables the usage of flashcard filesystem rooting at **fat:/** , if just one of them FAT or NITRO is enabled, then the default dir is already inside the **fat:/** or **nitro:/** but if both are enabled you must make sure to use appropriate path
 - **\_\_FB_NO_NITRO\_\_**  
- as nitro is enabled by default, this one actually DISABLES it, also while NITRO is enabled, *CrossConfig.bi* will chdir to the **NitroFiles** subfolder, so that you can have the same default folder on both NDS and native..
+ Despite this is not a native feature of freebasic its default usage on NDS, because normally games are single .NDS files so its considered as eessential and so as nitro is enabled by default, this one actually DISABLES it, also while NITRO is enabled, *CrossConfig.bi* will chdir to the **NitroFiles** subfolder when not compiling for NDS, so that you can have the same default folder on both NDS and native..
 - **\_\_FB_GFX_LAZYTEXTURE\_\_**  _experimental_  
  While in GL(like) HW ACC mode, textures are uploaded when the **PUT** gfx command is issued, however since theres a limited portion of time that textures can be handled without artifacts (because textures that got deleted may be used by the previous frame), resulting in delayed frames, however with this flag the uploads are lazily delayed to the moment that they can be uploaded, allowing the PUT to continue faster (but this need improvements and currently its not fully working as desired)  
 - **\_\_FB_GFX_DIRECTSCREEN\_\_** _experimental_  
