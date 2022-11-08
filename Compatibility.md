@@ -15,7 +15,7 @@ No OOP library function was added so far, so only operations that dont depend on
 ## Multithread:
 Just like the DOS version, no multithread operations are avaliable, however there's some extra functions added so that you can do background tasks, trough callbacks (functions called at every frame, so that you can use to slowly load stuff in background, that will be independent of the rest of the code), also since the NDS have an ARM7, theres the possibility to use something similar as **ThreadCall** to call an async function on the ARM7 side (should avoid it taking too long, because ARM7 is responsible for many I/O stuff that will be delayed meanwhile, in my test it was enough to have a 16khz mp3 running on ARM7)
 
-# Runtime libary setup
+# Runtime Libary setup
 unlike regular freebasic, the runtime library is not included as a static library,
 but instead is compiled along the project everytime (but since its a single module its fast this way), 
 and allowing for the compiler to do the best optimization and dead code detection as possible.  
