@@ -22,7 +22,7 @@ A **Drag_Bas_Here_To_Compile.bat** file is created along a sample .bas file and 
 The **CrossConfig.bi** should probabily be included instead of hardcoded (like most samples so far have, because its better organized this way, even that its not currently used by any of the samples (because i just made it now to simplify for people who will have code that will work on both native and NDS), also note that the **\_\_FB_NDS\_\_** is defined so you can have code specific for NDS.  
 
 <h1>Differences from regular freebasic</h1>  
-[a relative link](Compatibility.md)[/a]
+[Compatibility documentation]: Compatibility.md "Compatibility documentation"
 
 <h1>Compatibility warnings</h1>  
 
