@@ -6,7 +6,7 @@ https://github.com/MyTDT-Mysoft/FreebasicDS-SampleProjects
 
 <h1>Important</h1>  
 
-To use it, please download a (windows for now) **release** because the github folder does not have the required (freebasic 0.25) and devkitpro installs to use it, but the github files (mainly the **modules** folder) can be used to update the toolchain until a new release is created (when theres changes to freebasic or devkitpro or other major essential changes)  and the sample folder is not on the release yet..
+To use it, please download a (windows for now) **release** because this github repository does not have all the required (freebasic 0.25) and devkitpro installs to use it, but the github files (mainly the **modules** folder) can be used to update the toolchain until a new release is created (when theres changes to freebasic or devkitpro or other major essential changes)  PS: the sample folder is not on the release yet..
 
 <h1>Usage</h1>  
 
