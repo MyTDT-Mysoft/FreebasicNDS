@@ -2,6 +2,8 @@
 Toolchain to cross compile freebasic programs for NDS  
 
 # Samples
+[Samples folder](samples)  
+and  
 https://github.com/MyTDT-Mysoft/FreebasicDS-SampleProjects  
 
 # Important
