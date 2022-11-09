@@ -72,9 +72,29 @@ some special features were added into freebasic NDS, to accomodate the environme
 - **Private Functions**  
  while freebasic have the **private** keyword, i couldnt use that with the runtime/gfx library names, otherwise they would get duplicated definition among other stuff because the way the libraries are handled, and if i dont set the function as private, then the "dead code elimination" does not work very well, and you end getting a much bigger binary (even with inlined functions and macros i saved almost 80kb on the .exe by using private, so programs probabily should use the regular private keword, but for rtlib implementation i did similar as the inline case:
   ```freebasic
-  function _FB_Private_(MyFunction) (Var as VarType) as ReturnType``` 
+  function _FB_Private_(MyFunction) (Var as VarType) as ReturnType
+  ``` 
   which results in:
   ```freebasic
   function MyFunction__ alias "MyFunction__FB__STATIC__" (Var as VarType) as ReturnType
   ```  
   
+# Extra functions
+while their functionality may end using being implemented as flags to other stuff like **screen** , **screencontrol** or functions like **threadcall**...
+i added a few functions that were necessary to handle specific environment differences, they are:
+```freebasic
+sub fb_ShowKeyboard()
+```
+ shows the libNDS virtual keyboard on the console screen, which is required while using **inkey()** ... when using **input** that is a synchronous functions then the keyboard popups automatically. if the define **\_\_FB_CALLBACKS\_\_** is defined or enabled in the **CrossConfig.bi** then it smoothly slides into the screen, otherwise it appears immediatelly.  
+```freebasic
+sub fb_HideKeyboard()
+```
+ hides the libNDS virtual keyboard, if the define **\_\_FB_CALLBACKS\_\_** is defined or enabled in the **CrossConfig.bi** then it smoothly slides out the screen, otherwise it vanish immediatelly.  
+```freebasic
+function fb_AddVsyncCallBack(pFunction as any ptr, pData as any ptr,WhileRest as integer=true) as integer
+```
+ if **\_\_FB_CALLBACKS\_\_** is enabled then a function will be added to be called every frame, this function have the same prototype as threads, with just the **pData** pointer being passed as parameter, if the **WhileRest** parameter is true then the callback will be called also when sleep is called, basically using all IDLE time as opportunity for the callback to run (keep the code on those short to not compromise the stability), theres 4 slots for regular callback, and 4 slots for idle callbacks. Theres no check for already existing callback functions, so if you add a function more than once it will use moer slots as well, i limited the slots to avoid too much instability but theres a constant for that on **fblib.bas** if more required.
+```freebasic
+function fb_RemoveVsyncCallBack(pFunction as any ptr) as integer
+```
+ remove a callback previously added by **fb_AddVsyncCallBack**, if a function is inserted twice, it must be removed twice.
