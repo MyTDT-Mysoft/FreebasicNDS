@@ -21,7 +21,7 @@ but instead is compiled along the project everytime (but since its a single modu
 and allowing for the compiler to do the best optimization and dead code detection as possible.  
 
 That said you have **#define**'s to enable or disable certain possibilities that are not commonly used (or much viable on NDS),
-later with the creationg of the *fbcDS* binary wrapper, those will have compiler switch options, but they will translate to the same defines anyway.  
+later with the creation of the *fbcDS* binary wrapper, those will have compiler switch options, but they will translate to the same defines anyway.  
 
 the script that creates a new project copies a CrossConfig.bi file that set the default state of those, 
 as well include the runtime library and gfx library "modules" (**fblib.bas** and **fbgfx.bas**), 
@@ -37,7 +37,7 @@ Here is a list of the defines that i implemented so far (and default settings ac
 - **\_\_FB_GFX_NO_OLD_HEADER\_\_**  (DEFAULT)  
  Disables handling buffers with old/QB style (4 bytes headers)
 - **\_\_FB_GFX_NO_GL_RENDER\_\_**  (DEFAULT)  
- Disables the GL(like) hardware accelerated, note that as of now the screenres opengl flag is not doing anything, but this speed ups rendering specially for 16bpp when drawing directly to the screen, drawing to the buffers is the regular soft render, but note that the DS only have 512kb of memory for textures, so if more than that is used freebasic will delete the least used one's to upload the new one's (that only affect VRAM, the image buffer holding them are unnafected), and theres a WIP to use "compressed textures" (which requires about half the memory of 8bpp and quarter of the memory of 16bpp, however the conversion of an image block, to that format is permanent.
+ Disables the GL(like) hardware accelerated, note that as of now the screenres opengl flag is not doing anything, but this speed ups rendering specially for 16bpp when drawing directly to the screen, drawing to the buffers is the regular soft render, but note that the DS only have 512kb of memory for textures, so if more than that is used freebasic will delete the least used one's to upload the new one's (that only affect VRAM, the image buffer holding them are unnafected), and theres a WIP to use "compressed textures" (which requires about half the memory of 8bpp and quarter of the memory of 16bpp) however the conversion of an image block, to that format is SLOW (on the DS) and so a permanent action. No more changes can be done directly over a buffer with compressed format (so ideally for such case a external tool would be used and the resulting buffers added as a file (or perahps a custom .bmp format)
 - **\_\_FB_GFX_SMOOTHSCREEN\_\_**  
  Uses a temporal smooth filtering, useful for higher resolutions like 512x192 that would be a perfect linear scaled 256x192, happens automatically every frame, so as long no library disables interrupts for too long (pretty bad), then it will work very nicely, however most emulators dont do VSYNC (or have frameskips), which will affect this, works great on real hardware :)
 - **\_\_FB_CALLBACKS\_\_**  
@@ -54,4 +54,25 @@ Here is a list of the defines that i implemented so far (and default settings ac
  While in GL(like) HW ACC mode, textures are uploaded when the **PUT** gfx command is issued, however since theres a limited portion of time that textures can be handled without artifacts (because textures that got deleted may be used by the previous frame), resulting in delayed frames, however with this flag the uploads are lazily delayed to the moment that they can be uploaded, allowing the PUT to continue faster (but this need improvements and currently its not fully working as desired)  
 - **\_\_FB_GFX_DIRECTSCREEN\_\_** _experimental_  
  Normally a framebuffer is created in RAM, and copied (when theres changes) to the VRAM using DMA at appropriate time, but even that this is closer to free, that add its toll to the bandwidth and RAM waitstates (terrible buggy on NDS), so this allows to act like on QB where what you draw get rendered directly to the screen (and double buffer can be utilized, for maximum performance), however NDS hardware does not allow 8bit writes to VRAM, so 8bpp mode wont work properly in DS mode (DSi have revised hardware that improves this), with 16bpp modes thats fine (note that "multiple pages" are not currently fully implemented (TODO)
+ 
+# Extras features
+some special features were added into freebasic NDS, to accomodate the environment, they are implemented with a combination of macros/functions, or name aliases as well a preprocessing (both the .bas and the generate .c), which are parts that i had to add to the toolchain to have everything working the way it should be... such features are:  
+- **Volatile**  
+ Since NDS uses memory mapped I/O it requires the volatile keyword, so lots of the libNDS and then freebasic internals use I/O, then libNDS used type definitions with the volatile qualifier vu8 vu16 vu32, so since that's not possible in freebasic i created a set of functions for volatile access, so while if volatile existed it would be like ```cptr(vu16 ptr, &hFF884422) = &h1122``` instead the function ```cast_vu16( &hFF84422 ) = &h1122``` or ```*cptr_vu16( &hFF884422 ) = &h122``` is the appropriate way to access such I/O.  
+- **Inlined Functions**
+ libNDS implements some features trough inlined functions (usually as part of the headers), so when converting the headers i had a choice to make those work with macros, or regular functions (and hope that the compiler would do it properly), however i decided to add a way to have such feature in freebasic trough the preprocessors that i mentioned earlier. So to declare a inlined function you use the following:
+```freebasic
+function _FB_Inline_(MyFunction) (Var as VarType) as ReturnType
+```
+where **\_FB_Inline\_** is a macro that does the following
+```freebasic
+function MyFunction__ alias "MyFunction__FB__INLINE__" (Var as VarType) as ReturnType
+```
+which then is handled by the C preprocessor which will find the \_\_FB\_\_INLINE\_\_ suffix, remove it and add the "inline" to the begin of the C translated line to achieve it properly.  
+- **Private Functions**
+ while freebasic have the **private** keyword, i couldnt use that with the runtime/gfx library names, otherwise they would get duplicated definition among other stuff because the way the libraries are handled, and if i dont set the function as private, then the "dead code elimination" does not work very well, and you end getting a much bigger binary (even with inlined functions and macros i saved almost 80kb on the .exe by using private, so programs probabily should use the regular private keword, but for rtlib implementation i did similar as the inline case:
+ ```freebasic
+ function _FB_Private_(MyFunction) (Var as VarType) as ReturnType
+ function MyFunction__ alias "MyFunction__FB__STATIC__" (Var as VarType) as ReturnType
+ ```
  
