@@ -61,7 +61,20 @@ some special features were added into freebasic NDS, to accomodate the environme
  Since NDS uses memory mapped I/O it requires the volatile keyword, so lots of the libNDS and then freebasic internals use I/O, then libNDS used type definitions with the volatile qualifier vu8 vu16 vu32, so since that's not possible in freebasic i created a set of functions for volatile access, so while if volatile existed it would be like ```cptr(vu16 ptr, &hFF884422) = &h1122``` instead the function ```cast_vu16( &hFF84422 ) = &h1122``` or ```*cptr_vu16( &hFF884422 ) = &h122``` is the appropriate way to access such I/O.  
 - **Inlined Functions**  
  libNDS implements some features trough inlined functions (usually as part of the headers), so when converting the headers i had a choice to make those work with macros, or regular functions (and hope that the compiler would do it properly), however i decided to add a way to have such feature in freebasic trough the preprocessors that i mentioned earlier. So to declare a inlined function you use the following:
-```freebasic function _FB_Inline_(MyFunction) (Var as VarType) as ReturnType``` where **\_FB_Inline\_** is a macro that does the following ```freebasic function MyFunction__ alias "MyFunction__FB__INLINE__" (Var as VarType) as ReturnType``` which then is handled by the C preprocessor which will find the \_\_FB\_\_INLINE\_\_ suffix, remove it and add the "inline" to the begin of the C translated line to achieve it properly.  
+  ```freebasic
+  function _FB_Inline_(MyFunction) (Var as VarType) as ReturnType
+  ```
+  where **\_FB_Inline\_** is a macro that does the following:
+  ```freebasic 
+  function MyFunction__ alias "MyFunction__FB__INLINE__" (Var as VarType) as ReturnType
+  ```
+  which then is handled by the C preprocessor which will find the \_\_FB\_\_INLINE\_\_ suffix, remove it and add the "inline" to the begin of the C translated line to achieve it properly.  
 - **Private Functions**  
- while freebasic have the **private** keyword, i couldnt use that with the runtime/gfx library names, otherwise they would get duplicated definition among other stuff because the way the libraries are handled, and if i dont set the function as private, then the "dead code elimination" does not work very well, and you end getting a much bigger binary (even with inlined functions and macros i saved almost 80kb on the .exe by using private, so programs probabily should use the regular private keword, but for rtlib implementation i did similar as the inline case: ```freebasic function _FB_Private_(MyFunction) (Var as VarType) as ReturnType``` which results in ```freebasic function MyFunction__ alias "MyFunction__FB__STATIC__" (Var as VarType) as ReturnType```  
- 
+ while freebasic have the **private** keyword, i couldnt use that with the runtime/gfx library names, otherwise they would get duplicated definition among other stuff because the way the libraries are handled, and if i dont set the function as private, then the "dead code elimination" does not work very well, and you end getting a much bigger binary (even with inlined functions and macros i saved almost 80kb on the .exe by using private, so programs probabily should use the regular private keword, but for rtlib implementation i did similar as the inline case:
+  ```freebasic
+  function _FB_Private_(MyFunction) (Var as VarType) as ReturnType``` 
+  which results in:
+  ```freebasic
+  function MyFunction__ alias "MyFunction__FB__STATIC__" (Var as VarType) as ReturnType
+  ```  
+  
