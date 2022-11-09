@@ -64,11 +64,11 @@ some special features were added into freebasic NDS, to accomodate the environme
 ```freebasic
 function _FB_Inline_(MyFunction) (Var as VarType) as ReturnType
 ```
-where **\_FB_Inline\_** is a macro that does the following
+ where **\_FB_Inline\_** is a macro that does the following
 ```freebasic
 function MyFunction__ alias "MyFunction__FB__INLINE__" (Var as VarType) as ReturnType
 ```
-which then is handled by the C preprocessor which will find the \_\_FB\_\_INLINE\_\_ suffix, remove it and add the "inline" to the begin of the C translated line to achieve it properly.  
+ which then is handled by the C preprocessor which will find the \_\_FB\_\_INLINE\_\_ suffix, remove it and add the "inline" to the begin of the C translated line to achieve it properly.  
 - **Private Functions**  
  while freebasic have the **private** keyword, i couldnt use that with the runtime/gfx library names, otherwise they would get duplicated definition among other stuff because the way the libraries are handled, and if i dont set the function as private, then the "dead code elimination" does not work very well, and you end getting a much bigger binary (even with inlined functions and macros i saved almost 80kb on the .exe by using private, so programs probabily should use the regular private keword, but for rtlib implementation i did similar as the inline case:
  ```freebasic
